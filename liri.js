@@ -9,6 +9,13 @@ const DEFAULT_SONG = "Beautiful Liers";
 
 function twitter() {
    console.log("if you use a bird its called tweeting"); 
+   client.post('statuses/update', {status: 'I Love Twitter'})
+  .then(function (tweet) {
+    console.log(tweet);
+  })
+  .catch(function (error) {
+    throw error;
+  })
 }
 
 function spotify(title) {
