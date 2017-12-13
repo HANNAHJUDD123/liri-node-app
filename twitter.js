@@ -1,40 +1,58 @@
 const request = require('request-promise-native');
 
-// // give it an entry point
+const Twitter = require('twitter');
 
-let client = new Twitter({
-    consumer_key: 'A7XHMhqbdoN6F9sBt0rdimfz3',
-    consumer_secret: 'ST1ZPzpnqHStrx8XvS9sdWGBAMH7fKEMd8q1sIPTEcRU4NYDZ5',
-    bearer_token: '935699151668486144-TZPRxDOk9vP3Vf4NLjcy4nUWLIK6OqM'
-  });
+const fs = require('fs');
+
+
 
 function getMyTweets(getMyTweets) {
-  if (!myTweets) {
-    let msg = `No Tweets provided`;
-    return Promise.reject(msg);
-  }
+
   return request.get({
       url: `https://api.twitter.com/1.1/search/tweets.json`, 
       json: true
     }).then(function(data) {
       return {
-        name: data.Title,
-        year: data.Year,
-        rated: data.Rated,
-        rottenTomatoes: rottenTomatoes,
-        imdb: imdb,
-        country: data.Country,
-        language: data.Language,
-        plot: data.Plot,
-        actors: data.Actors
+        tweet: tweets
 
       };
     });
 }
-console.log(data)
 
+function myTwitter(){
+	let client = new Twitter({
+        consumer_key: '4mz7sgSsjXCQRFaw3UWGZOWQT',
+        consumer_secret: 'gPr0lwKVoPV3MPH1sCDZAjsBS1xaKhzIGzzFbUl1f2NxnA9e5E',
+        access_token_key: '935699151668486144-3IldQ8hYkjuoMJx2vrlcTkVNySZ3zSu',
+        access_token_secret: 'qpS8goHFLyFRVbH7KN90dQHpSmj0vEViOjuGinGFipzSV',
+      });
+	let params = {
+		screen_name: 'MarthaBilly2',
+		count: '20',
+		trim_user: false,
+	}
+
+	client.get('statuses/user_timeline', params, function(error, timeline, response){
+		if(!error){
+			for(tweet in timeline){
+				var tDate = new Date(timeline[tweet].created_at);
+
+				console.log("Tweet #: " + (parseInt(tweet)+1) + " ");
+				console.log(tDate.toString().slice(0, 24) + " ");
+				console.log(timeline[tweet].text);
+				console.log("\n");
+
+				fs.appendFile('log.txt', "Tweet #: " + (parseInt(tweet)+1) + "\n");
+				fs.appendFile('log.txt', timeline[tweet].text + "\n");
+				fs.appendFile('log.txt', "\n");
+
+			}
+		} 
+	})
+
+}
 module.exports = {
-  getMovieDetails: getMovieInfo,
+  getMyTweets: myTwitter
+
+  
 };
-
-

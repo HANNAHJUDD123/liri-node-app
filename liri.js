@@ -1,21 +1,23 @@
-// import { request } from 'http';
+ // import { request } from 'http';
 const request = require('http');
 
 const fs = require('fs');
 const omdbTools = require('./omdb');
 const spotifyTools = require('./spotify')
+const twitterTools = require('./twitter')
 const DEFAULT_MOVIE = "Harry Potter and the Deathly Hallows";
 const DEFAULT_SONG = "Beautiful Liers";
 
-function twitter() {
+function Twitter(twitter) {
+    twitterTools.getMyTweets(twitter)
    console.log("if you use a bird its called tweeting"); 
-   client.post('statuses/update', {status: 'I Love Twitter'})
-  .then(function (tweet) {
-    console.log(tweet);
-  })
-  .catch(function (error) {
-    throw error;
-  })
+//    client.post('statuses/update', {status: 'I Love Twitter'})
+//   .then(function (tweet) {
+//     console.log(tweet);
+//   })
+//   .catch(function (error) {
+//     throw error;
+//   })
 }
 
 function spotify(title) {
@@ -63,6 +65,7 @@ function sayDo() {
         - what if there are multiple lines in the file? Should it run each of the commands? In that case, you need to loop over each line...
     */
     let command = contents.split(',')[0];
+    
     let user = contents.split(',')[1];
     runCommand(command, user);
     // console.log("i will do your will");
@@ -70,7 +73,7 @@ function sayDo() {
 
 function runCommand(command, secondParam) {
     switch(command) {
-        case "my-tweets": return twitter();
+        case "my-tweets": return Twitter();
         case "spotify-this-song": return spotify(secondParam);
         case "movie-this": return omdb(secondParam);
         case "do-what-it-says": return sayDo();
